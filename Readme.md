@@ -4,6 +4,18 @@ Follow the below steps to setup the codebase
 
 1. Clone the repo `git clone https://github.com/johnjayasingh/hedera-certification-john.git`
 2. Run `npm install` to install the dependency
+3. After installing the dependencies we will need to configure the credentials and test accounts
+4. First create a copy of `sample.env` and name it `.env`
+5. In the .env update all the values as per the requirment
+```
+SEED_COUNT= # the no of accounts to be generated
+SEED_AMOUNT = # the amount hbar to be deposited as initial balance for seed accounts
+CLIENT_ID = # account id to be used for transactions such as creating seed account or paying transaction fee to some transactions used in scripts
+CLIENT_PRIVATE_KEY = # private key of the client_id/account id used in previous line
+```
+6. After setting up the values run `npm run seed` to create test accounts based of number given. 
+7. If you want to recreate new accounts simply running this command again will clear old accounts and create new accounts.
+8. After setting up all the required we can run tasks one by one with the help of `npm scripts`. To do so follow steps further in below sections.
 
 Below tasks are included with steps to run and output received at the time of execution and info on what happens inside the code 
 
