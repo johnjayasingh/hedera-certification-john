@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "seed": "node account/createAccount.js",
+    "task:multisig": "node scripts/multi-signature/multisigTransfer.js",
     "task:consensus": "node scripts/consensus-service/sendCurrentTime.js"
   },
   "author": "John S",
