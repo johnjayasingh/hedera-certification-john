@@ -13,7 +13,7 @@ SEED_AMOUNT = # the amount hbar to be deposited as initial balance for seed acco
 CLIENT_ID = # account id to be used for transactions such as creating seed account or paying transaction fee to some transactions used in scripts
 CLIENT_PRIVATE_KEY = # private key of the client_id/account id used in previous line
 ```
-6. After setting up the values run `npm run seed` to create test accounts based of number given. 
+6. After setting up the values run `npm run seed` to create test accounts based of number given. The accounts are stored under `config/acccounts.json` file in JSON format 
 7. If you want to recreate new accounts simply running this command again will clear old accounts and create new accounts.
 8. After setting up all the required we can run tasks one by one with the help of `npm scripts`. To do so follow steps further in below sections.
 
