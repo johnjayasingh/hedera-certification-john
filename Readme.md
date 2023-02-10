@@ -5,6 +5,8 @@ Follow the below steps to setup the codebase
 1. Clone the repo `git clone https://github.com/johnjayasingh/hedera-certification-john.git`
 2. Run `npm install` to install the dependency
 
+Below tasks are included with steps to run and output received at the time of execution and info on what happens inside the code 
+
 ## Task 1 - Token Service
 Create a script that generates a fungible token that requires a KYC
 process to be completed.
