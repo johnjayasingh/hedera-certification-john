@@ -2,7 +2,7 @@
 
 Follow the below steps to setup the codebase 
 
-1. Clone the repo `git clone https://github.com/johnjayasingh/hedera-mock.git`
+1. Clone the repo `git clone https://github.com/johnjayasingh/hedera-certification-john.git`
 2. Run `npm install` to install the dependency
 
 ## Task 1 - Token Service
@@ -16,6 +16,18 @@ Show that the account is not yet able to participate in the token
 because it is not been KYC approved.
 
 Now set the KYC flag on Account3 and retry the transfer.
+
+### Steps
+1. To run token kyc service `npm run task:token`
+2. The script creates a token with KYC enabled and fixed supply 
+3. We will try to transfer from treasurry to account#3 without doing KYC first and the transaction fails
+4. Then using kyc key we will do KYC verification for the account#3
+5. Post KYC script will do the transfer again and the transfer goes through 
+
+
+### Output
+![swap output](./scripts/token-service/output.png)
+
 
 ## Task 2 - Smart Contract Service
 Compile the Solidity contract given below using

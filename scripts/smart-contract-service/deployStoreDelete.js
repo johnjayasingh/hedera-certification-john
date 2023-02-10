@@ -2,10 +2,7 @@ const { ContractCreateFlow, ContractExecuteTransaction, ContractFunctionParamete
 const { hethers } = require('@hashgraph/hethers');
 
 const { bytecode } = require('./bytecode')
-const { accountsPath } = require('../../config/constants');
 const { createClient } = require('../../lib/client');
-
-const [account1] = require(accountsPath);
 
 // Create a new Hedera client
 const client = createClient();

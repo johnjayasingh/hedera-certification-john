@@ -8,7 +8,8 @@
     "task:multisig": "node scripts/multi-signature/multisigTransfer.js",
     "task:consensus": "node scripts/consensus-service/sendCurrentTime.js",
     "task:schedule": "node scripts/schedule-service/scheduleTransaction.js",
-    "task:smartcontract": "node scripts/smart-contract-service/deployStoreDelete.js"
+    "task:smartcontract": "node scripts/smart-contract-service/deployStoreDelete.js",
+    "task:token": "node scripts/token-service/kyc.js"
   },
   "author": "John S",
   "license": "ISC",
