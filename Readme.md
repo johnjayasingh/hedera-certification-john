@@ -5,6 +5,51 @@ Follow the below steps to setup the codebase
 1. Clone the repo `git clone https://github.com/johnjayasingh/hedera-mock.git`
 2. Run `npm install` to install the dependency
 
+## Task 1 - Token Service
+Create a script that generates a fungible token that requires a KYC
+process to be completed.
+
+Set a fixed supply of 1000. Associate Account3, but do not KYC it.
+Try to send 12.99 tokens from Account2 to Account3.
+
+Show that the account is not yet able to participate in the token
+because it is not been KYC approved.
+
+Now set the KYC flag on Account3 and retry the transfer.
+
+## Task 2 - Smart Contract Service
+Compile the Solidity contract given below using
+Account1 and deploy it to the Hedera Network using
+the HCS with the ContractCreateFlow method. 
+
+Write a script to call “function1” with the parameters 5 and 6.
+Gather the result and display it in the output.
+
+Delete the smart contract.
+
+
+## Task 3 - Scheduled Transaction
+Create a script that creates a scheduled transaction of 2 hbar from
+Account1 to Account2.
+
+Make a second script that deletes the transaction.
+
+Print out the schedule information along the way along with the
+proof that the transfer did not happen.
+
+Try to execute the transaction and show that it does not work.
+
+### Steps
+1. To run schedule service `npm run task:schedule`
+2. The script will create a transfer transaction without getting signatures and schedule it 
+3. We will delete the schedule transaction with the admin key
+4. After deletion will see if the expiration time is set properly with printing info
+4. Finally we will verify the deleted schedule transaction can be executed with valid signatures  
+
+
+### Output
+![swap output](./scripts/schedule-service/output.png)
+
 
 ## Task 4 - Multi Signature
 

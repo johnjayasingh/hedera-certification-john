@@ -1,5 +1,4 @@
 const {
-    Client,
     PrivateKey,
     AccountCreateTransaction,
     TransferTransaction,

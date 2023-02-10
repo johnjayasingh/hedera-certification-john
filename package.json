@@ -6,7 +6,8 @@
   "scripts": {
     "seed": "node account/createAccount.js",
     "task:multisig": "node scripts/multi-signature/multisigTransfer.js",
-    "task:consensus": "node scripts/consensus-service/sendCurrentTime.js"
+    "task:consensus": "node scripts/consensus-service/sendCurrentTime.js",
+    "task:schedule": "node scripts/schedule-service/scheduleTransaction.js"
   },
   "author": "John S",
   "license": "ISC",

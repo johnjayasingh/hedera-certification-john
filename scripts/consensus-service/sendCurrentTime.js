@@ -1,5 +1,4 @@
 const {
-    Client,
     TopicCreateTransaction,
     TopicMessageSubmitTransaction,
     TopicMessageQuery,
@@ -11,27 +10,10 @@ const [accountOne] = require(accountsPath);
 // Create a Hedera Client
 const client = createAccountClient(accountOne.accountId, accountOne.privateKey);
 
-//Main function
-async function main() {
-    // create a new topic to submit message
-    const topicId = await createTopic();
-
-    //Creating a delay before subscribing
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-
-    //Subscribing to the topic
-    await subscribeTopic(topicId.toString());
-
-    //Calculate current time
-    const currentTime = new Date().toUTCString();
-
-    //Submitting message to the topic
-    await submitMsg(topicId, currentTime);
-
-    process.exit();
-}
-
-//To create a topic and return the topic ID
+/**
+ * Create a Hedera Topic 
+ * @returns topicId 
+ */
 async function createTopic() {
     try {
 
@@ -50,11 +32,13 @@ async function createTopic() {
     }
 }
 
-//To subscribe a topic and console the incoming messages
+/**
+ * To subscribe a topic and console the incoming messages
+ **/
 async function subscribeTopic(topicId) {
     try {
         //Create the query to subscribe to a topic
-        new TopicMessageQuery()
+        return new TopicMessageQuery()
             .setTopicId(topicId)
             .setStartTime(0)
             .subscribe(client, null, (message) => {
@@ -68,7 +52,12 @@ async function subscribeTopic(topicId) {
     }
 }
 
-//To submit a message to the topic
+/**
+ * Submit a message to given Topic Id
+ * @param {*} topicId 
+ * @param {*} message 
+ * @returns 
+ */
 async function submitMsg(topicId, message) {
     try {
         // Send one message
@@ -91,5 +80,27 @@ async function submitMsg(topicId, message) {
         console.log("Error in Submit Message : " + err);
     }
 }
+
+
+// Main function
+async function main() {
+    // create a new topic to submit message
+    const topicId = await createTopic();
+
+    //Creating a delay before subscribing
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    //Subscribing to the topic
+    await subscribeTopic(topicId.toString());
+
+    //Calculate current time
+    const currentTime = new Date().toUTCString();
+
+    //Submitting message to the topic
+    await submitMsg(topicId, currentTime);
+
+    process.exit();
+}
+
 
 main();
