@@ -26,6 +26,16 @@ Write a script to call “function1” with the parameters 5 and 6.
 Gather the result and display it in the output.
 
 Delete the smart contract.
+### Steps
+1. To run schedule service `npm run task:smartcontract`
+2. First the solidity smart contract is compiled to bytecode with solc library 
+3. Then the bytecode is used to create a smart contract instance on Hedera network
+4. After contract is creation a transaction to set values is executed and result is printed
+5. Finally the contract that is created gets delted with the use of admin key and any funds locked in contract is transferred to the obtainer
+
+
+### Output
+![swap output](./scripts/smart-contract-service/output.png)
 
 
 ## Task 3 - Scheduled Transaction
