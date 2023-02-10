@@ -4,6 +4,8 @@ const {
     TransferTransaction,
     Hbar,
     KeyList,
+    ScheduleInfoQuery,
+    ScheduleSignTransaction,
 } = require('@hashgraph/sdk');
 const { balanceOf } = require('../../utils/balance');
 const { accountsPath } = require('../../config/constants');
@@ -13,6 +15,26 @@ const [account1, account2, account3, account4] = require(accountsPath);
 // Create a Hedera Client
 const client = createClient();
 
+
+/**
+ * Print the schedule Id info
+ * @param {*} scheduleId 
+ */
+async function printInfo(scheduleId) {
+    const info = await new ScheduleInfoQuery().setScheduleId(scheduleId)
+        .execute(client);
+    console.log(`\n\n
+            Scheduled Transaction Info 
+            ID               : ${scheduleId} 
+            Memo             : ${info.scheduleMemo}
+            Creator          : ${info.creatorAccountId}
+            Payer            : ${info.payerAccountId}
+            Expiration Time  : ${info.expirationTime}
+            Execution Status : ${info.executed}
+        `);
+
+    console.log(`${info.executed ?'Transaction Executed': 'Transaction Pending to be executed'} - ${new Date().toISOString()}`)
+}
 
 
 function publicKeyOf(account) {
@@ -48,6 +70,7 @@ async function main() {
     const transaction = new TransferTransaction()
         .addHbarTransfer(multiSigAccountID, Hbar.fromString(`-10`))
         .addHbarTransfer(account4.accountId, Hbar.fromString('10'))
+        .schedule()
         .freezeWith(client);
 
     // Sign transaction with first account of three
@@ -58,48 +81,34 @@ async function main() {
     console.log(`Send the transaction with 1 of 2 required keys signed`)
 
     // Sign with the client operator key to pay for the transaction and submit to a Hedera network
-    const txResponseFail = await signTx.execute(client);
+    const txResponse1 = await signTx.execute(client);
 
     //Trying to get the receipt of the transaction
-    try {
-        // Check if the transaction is success
-        await txResponseFail.getReceipt(client);
-    } catch (err) {
-        // Log the error
-        console.error(`The transfer Transaction has failed with stauts ${err.status}`);
-    }
+    const receipt1 = await txResponse1.getReceipt(client);
 
+    // Check if the transaction is success
+    await printInfo(receipt1.scheduleId);
 
-    // Creating a Transaction to send 10 HBAR to another account from MultiSig account
-    const transactionTwo = new TransferTransaction()
-        .addHbarTransfer(multiSigAccountID, Hbar.fromString(`-10`))
-        .addHbarTransfer(account4.accountId, Hbar.fromString('10'))
-        .freezeWith(client);
+    console.log(`Adding the signature by Account 2`);
+    // Add Signature by Account 2
+    const txScheduleSign2 = await (
+        await new ScheduleSignTransaction()
+            .setScheduleId(receipt1.scheduleId)
+            .freezeWith(client)
+            .sign(PrivateKey.fromString(account2.privateKey))
+    ) 
 
-    // Sign transaction with first account key of two
-    let signTx2 = await transactionTwo.sign(
-        PrivateKey.fromString(account1.privateKey)
+    const txResponse2 = await txScheduleSign2.execute(client);
+    const receipt2 = await txResponse2.getReceipt(client);
+    console.log(
+        `Creating and executing transaction ${txResponse2.transactionId.toString()} status: ${receipt2.status
+        }`
     );
 
 
-    // Sign with second key of two
-    signTx2 = await signTx2.sign(
-        PrivateKey.fromString(account2.privateKey)
-    );
+    await printInfo(receipt1.scheduleId);
 
 
-    // Sign with the client operator key to pay for the transaction and submit to a Hedera network
-    const txResponseSuccess = await signTx2.execute(client);
-
-    //Trying to get the receipt of the transaction
-    try {
-        // Check if the transaction is success
-        const receipt = await txResponseSuccess.getReceipt(client);
-        console.log(`Transaction has completed with status ${receipt.status}`)
-    } catch (err) {
-        // Log the error if any
-        console.error(`The Transaction has failed with stauts ${err.status}`);
-    }
     // Logging final balances
     console.log(`Balance of multi sig wallet ${multiSigAccountID} is ${await balanceOf(multiSigAccountID)}`)
     console.log(`Balance of receiver wallet ${account4.accountId} is ${await balanceOf(account4.accountId)}`)

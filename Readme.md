@@ -102,8 +102,8 @@ Sign the transaction with Account2 and get the information again to show that it
 ### Steps
 1. To run consensus service `npm run task:multisig`
 2. The script will collect the required keys and will create a multi sig wallet with an inital balance
-3. After which at it will try to do transaction with just 1 out of 2 required keys and the transaction fails
-4. Post the failed transaction we will try again with a new transaction with 2 of 2 required keys and the transaction succeds
+3.  When we create a transaction with one signature the schedule is not executed yet
+4. Post the second signature transaction will be executed and the schedule status changes
 
 
 ### Output
